@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->enum('categorie', ['entrée', 'plat', 'dessert', 'boisson']);
-            $table->decimal('prix_HT', 8.2);
-            $table->decimal('tva', 5.2);
-            $table->decimal('prix_TTC', 8.2);
-            $table->foreignId('id_restaurant')->constrained()->onDelete('cascade');
+            $table->decimal('prix_HT', 8,2);
+            $table->decimal('tva', 5,2);
+            $table->decimal('prix_TTC', 8,2);
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cartes');
+        Schema::dropIfExists('produits');
     }
 };
