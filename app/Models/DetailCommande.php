@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DetailCommande extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+         'prix_HT', 'tva', 'prix_TTC', 'quantité', 'formule_id'
+    ];
 }

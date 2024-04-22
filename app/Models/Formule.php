@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Formule extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'nom', 'prix_HT', 'tva', 'prix_TTC', 'restaurant_id'
+    ];
 }
