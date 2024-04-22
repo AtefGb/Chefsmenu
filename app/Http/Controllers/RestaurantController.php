@@ -34,7 +34,7 @@ class RestaurantController extends Controller
             'adresse' => $validated['adresse'],
             'horaire' => $validated['horaire'],
             'image' => $validated['image'],
-            'image_path' => $imagePath
+            // 'image_path' => $imagePath
         ]);
         if ($restaurant) {
             return response()->json(['message' => 'Votre restaurant sous le nom de '. $restaurant->nom . ' a bien été crée.'], 201);
@@ -45,38 +45,40 @@ class RestaurantController extends Controller
 
     public function show(Restaurant $restaurant)
     {
-        return response()->json(['restaurant' => $restaurant]);
+        return  $restaurant;
     }
 
     public function update(Request $request, Restaurant $restaurant)
     {
+       
+
         $validated = $request->validate([
             'nom' => 'required|string|min:1|max:50',
             'adresse' => 'required|string|min:2|max:255',
             'horaire' => 'required|date_format:H:i',
             'image' => 'required|image|mimes:jpeg,jpg,png,gif'
         ]);
-        
-        $imageFile = $request->file('image');
 
-        $imagePath = $imageFile->store('public/images');
-        $imagePath = str_replace('public/', 'storage/', $imagePath);
-
-        $restaurant->update([
-            'nom' => $validated['nom'],
-            'adresse' => $validated['adresse'],
-            'horaire' => $validated['horaire'],
-            'image' => $validated['image'],
-            'image_path' => $imagePath
-        ]);
-
+        $restaurant->nom = $request->nom();
+        $restaurant->adresse = $request->adresse();
+        $restaurant->horaire = $request->horaire();
+        $restaurant->image = $request->image();
         $restaurant->save();
+        
+        // $imageFile = $request->file('image');
 
-        return response()->json(['message' => 'Votre restaurant sous le nom de '. $restaurant->nom . ' a bien été modifié.']);
+        // $imagePath = $imageFile->store('public/images');
+        // $imagePath = str_replace('public/', 'storage/', $imagePath);
+
+        $restaurant->update($validated);
+
+        return response()->json(['message' => 'Votre restaurant sous le nom de '. $restaurant->nom . ' a bien été modifié.', 'restaurant' => $restaurant]);
     }
 
-    public function destroy()
+    public function destroy(Restaurant $restaurant)
     {
-
+        // $deletedRestaurants = Restaurant::all();
+        // return response()->json($deletedRestaurants);
+    
     }
 }
