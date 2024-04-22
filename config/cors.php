@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],//adresse front end react
+    'allowed_origins' => ['http://localhost:5173'], //adresse front end react
 
     'allowed_origins_patterns' => [],
 
