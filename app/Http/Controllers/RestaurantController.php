@@ -24,8 +24,9 @@ class RestaurantController extends Controller
         ]);
         
         $imageFile = $request->file('image');
+        $imageName = time() . '_' . $request->image->getClientOriginalName();
 
-        $imagePath = $imageFile->store('public/images');
+        $imagePath = $imageFile->storeAs('public/images', $imageName);
         $imagePath = str_replace('public/', 'storage/', $imagePath);
 
 

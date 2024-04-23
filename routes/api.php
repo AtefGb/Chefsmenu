@@ -12,3 +12,11 @@ Route::post('/restaurants', [RestaurantController::class, 'store'])->name('resta
 Route::get('/restaurant/{restaurant}', [RestaurantController::class, 'show'])->name('restaurants.show');
 Route::put('/restaurants/{restaurant}', [RestaurantController::class, 'update'])->name('restaurants.update');
 Route::delete('/restaurants/{restaurant}', [RestaurantController::class, 'destroy'])->name('restaurants.destroy');
+
+Route::post('/register', [AuthController::class, 'store'])->name('register.store');
+//Route::get('/register', [RestaurateurAuthController::class, 'register'])->name('register.register');
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout']);
+
+Route::post('/api/login', [AuthController::class, 'login']);
