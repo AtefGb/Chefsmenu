@@ -9,19 +9,12 @@ use App\Models\User;
 
 class RestaurateurAuthController extends Controller
 {
-    public function register()
-    {
-        $user = User::all();
-
-        return response()->json(['user' => $user]);
-    }
-
     public function store(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|',
-            'password' => 'required|string|',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6',
         ]);
 
         $user = User::create([
@@ -35,27 +28,21 @@ class RestaurateurAuthController extends Controller
 
     public function login(Request $request)
     {
-        $validate = $request->validate([
-            'email' => 'required|email|',
-            'password' => 'required|string|'
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($validate)) {
+        if (Auth::attempt($credentials)) {
             return response()->json(['message' => 'vous êtes connecté']);
         } else {
-            return response()->json(['message' => 'email ou mot de passe incorrect ']);
+            return response()->json(['message' => 'email ou mot de passe incorrect '], 401);
         }
-    }
-
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
     }
 
     public function logout()
     {
         Auth::logout();
-
-        return response()->json(['message'=>'Logout effettuato con successo']);
+        return response()->json(['message' => 'Logout effettuato con successo']);
     }
 }
