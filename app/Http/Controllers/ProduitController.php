@@ -13,7 +13,7 @@ class ProduitController extends Controller
         $produits = Produit::all();
         $restaurant = Restaurant::all();
 
-        return response()->json(['produits' => $produits]);
+        return response()->json(['produits' => $produits, 'restaurant' => $restaurant]);
     }
 
     public function store(Request $request)
@@ -60,12 +60,12 @@ class ProduitController extends Controller
             'restaurant_id' => 'required|numeric'
         ]);
 
-        $produit->nom = $request->nom();
-        $produit->categorie = $request->categorie();
-        $produit->prix_HT = $request->prix_HT();
-        $produit->tva = $request->tva();
-        $produit->prix_TTC = $request->prix_TTC();
-        $produit->restaurant_id = $request->restaurant_id();
+        $produit->nom = $request->nom;
+        $produit->categorie = $request->categorie;
+        $produit->prix_HT = $request->prix_HT;
+        $produit->tva = $request->tva;
+        $produit->prix_TTC = $request->prix_TTC;
+        $produit->restaurant_id = $request->restaurant_id;
         $produit->save();
 
 
@@ -76,8 +76,12 @@ class ProduitController extends Controller
 
     public function destroy(produit $produit)
     {
-        // $deletedproduits = produit::all();
-        // return response()->json($deletedproduits);
+        if (!$produit)
+        return response()->json(['message' => 'produit not found'], 404);
+
+        $produit->delete();
+
+        return response()->json(['message' => 'produit supprimé'], 200);
     
     }
 }

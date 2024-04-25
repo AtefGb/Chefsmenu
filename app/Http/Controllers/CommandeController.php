@@ -60,11 +60,11 @@ class CommandeController extends Controller
             'detailCommande_id' => 'required|numeric',
         ]);
 
-        $commande->prix_HT = $request->prix_HT();
-        $commande->tva = $request->tva();
-        $commande->prix_TTC = $request->prix_TTC();
-        $commande->table_id = $request->table_id();
-        $commande->detailCommande_id = $request->detailCommande_id();
+        $commande->prix_HT = $request->prix_HT;
+        $commande->tva = $request->tva;
+        $commande->prix_TTC = $request->prix_TTC;
+        $commande->table_id = $request->table_id;
+        $commande->detailCommande_id = $request->detailCommande_id;
         $commande->save();
 
 
@@ -75,8 +75,12 @@ class CommandeController extends Controller
 
     public function destroy(Commande $commande)
     {
-        // $deletedcommandes = commande::all();
-        // return response()->json($deletedcommandes);
+        if (!$commande)
+        return response()->json(['message' => 'La commande est introuvable'], 404);
+
+        $commande->delete();
+
+        return response()->json(['message' => 'La commande a bien été supprimé'], 200);
     
     }
 }

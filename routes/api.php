@@ -49,15 +49,17 @@ Route::put('/commandes/{commande}', [CommandeController::class, 'update']);
 Route::delete('/commandes/{commande}', [CommandeController::class, 'destroy']);
 
 // Route CRUD DETAILS COMMANDES
-Route::get('/DetailCommandes', [DetailCommandeController::class, 'index']);
-Route::post('/DetailCommandes', [DetailCommandeController::class, 'store']);
-Route::get('/DetailCommandes/{DetailCommande}', [DetailCommandeController::class, 'show']);
-Route::put('/DetailCommandes/{DetailCommande}', [DetailCommandeController::class, 'update']);
-Route::delete('/DetailCommandes/{DetailCommande}', [DetailCommandeController::class, 'destroy']);
+Route::get('/detailCommandes', [DetailCommandeController::class, 'index']);
+Route::post('/detailCommandes', [DetailCommandeController::class, 'store']);
+Route::get('/detailCommandes/{detailCommande}', [DetailCommandeController::class, 'show']);
+Route::put('/detailCommandes/{detailCommande}', [DetailCommandeController::class, 'update']);
+Route::delete('/detailCommandes/{detailCommande}', [DetailCommandeController::class, 'destroy']);
 
 
 // Route CONNEXION
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'store']);
+Route::post('/api/logout', [AuthController::class, 'logout']);
+Route::post('/logout', [AuthController::class, 'logout']);
 // Route::get('/register', [AuthController::class, 'register'])->name('register.register');
 

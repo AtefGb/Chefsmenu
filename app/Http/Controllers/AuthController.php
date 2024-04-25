@@ -52,7 +52,7 @@ class AuthController extends Controller
     //     return view('auth.register');
     // }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
 

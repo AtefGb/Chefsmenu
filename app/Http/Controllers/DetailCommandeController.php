@@ -62,12 +62,12 @@ class DetailCommandeController extends Controller
             'formule_id' => 'numeric'
         ]);
 
-        $detailCommande->prix_HT = $request->prix_HT();
-        $detailCommande->tva = $request->tva();
-        $detailCommande->prix_TTC = $request->prix_TTC();
-        $detailCommande->quantité = $request->quantité ();
-        $detailCommande->produit_id = $request->produit_id();
-        $detailCommande->formule_id = $request->formule_id();
+        $detailCommande->prix_HT = $request->prix_HT;
+        $detailCommande->tva = $request->tva;
+        $detailCommande->prix_TTC = $request->prix_TTC;
+        $detailCommande->quantité = $request->quantité;
+        $detailCommande->produit_id = $request->produit_id;
+        $detailCommande->formule_id = $request->formule_id;
         $detailCommande->save();
 
 
@@ -78,8 +78,11 @@ class DetailCommandeController extends Controller
 
     public function destroy(DetailCommande $detailCommande)
     {
-        // $deletedDetailCommandes = DetailCommande::all();
-        // return response()->json($deletedDetailCommandes);
-    
+        if (!$detailCommande)
+        return response()->json(['message' => 'Le détail de la commande is not found'], 404);
+
+        $detailCommande->delete();
+
+        return response()->json(['message' => 'Le détail de la commande a bien été supprimé'], 200);
     }
 }

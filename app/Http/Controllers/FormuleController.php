@@ -57,11 +57,11 @@ class FormuleController extends Controller
             'restaurant_id' => 'required|numeric'
         ]);
 
-        $formule->nom = $request->nom();
-        $formule->prix_HT = $request->prix_HT();
-        $formule->tva = $request->tva();
-        $formule->prix_TTC = $request->prix_TTC();
-        $formule->restaurant_id = $request->restaurant_id();
+        $formule->nom = $request->nom;
+        $formule->prix_HT = $request->prix_HT;
+        $formule->tva = $request->tva;
+        $formule->prix_TTC = $request->prix_TTC;
+        $formule->restaurant_id = $request->restaurant_id;
         $formule->save();
 
 
@@ -72,8 +72,12 @@ class FormuleController extends Controller
 
     public function destroy(Formule $formule)
     {
-        // $deletedproduits = produit::all();
-        // return response()->json($deletedproduits);
+        if (!$formule)
+        return response()->json(['message' => 'formule not found'], 404);
+
+        $formule->delete();
+
+        return response()->json(['message' => 'formule supprimé'], 200);
     
     }
 }

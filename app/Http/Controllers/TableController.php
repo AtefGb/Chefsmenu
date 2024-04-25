@@ -48,8 +48,8 @@ class TableController extends Controller
             'restaurant_id' => 'required|numeric'
         ]);
 
-        $table->num_table = $request->num_table();
-        $table->restaurant_id = $request->restaurant_id();
+        $table->num_table = $request->num_table;
+        $table->restaurant_id = $request->restaurant_id;
         $table->save();
 
 
@@ -60,8 +60,12 @@ class TableController extends Controller
 
     public function destroy(Table $table)
     {
-        // $deletedproduits = produit::all();
-        // return response()->json($deletedproduits);
+        if (!$table)
+        return response()->json(['message' => 'table not found'], 404);
+
+        $table->delete();
+
+        return response()->json(['message' => 'table supprimé'], 200);
     
     }
 }
