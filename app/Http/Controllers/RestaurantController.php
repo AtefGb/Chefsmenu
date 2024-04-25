@@ -20,23 +20,22 @@ class RestaurantController extends Controller
             'nom' => 'required|string|min:1|max:50',
             'adresse' => 'required|string|min:2|max:255',
             'horaire' => 'required|date_format:H:i',
-            'image' => 'required|image|mimes:jpeg,jpg,png,gif'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
         
-        $imageFile = $request->file('image');
-        $imageName = time() . '_' . $request->image->getClientOriginalName();
+      
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+      
 
-        $imagePath = $imageFile->storeAs('public/images', $imageName);
-        $imagePath = str_replace('public/', 'storage/', $imagePath);
+        $restaurant = new Restaurant();
+        $restaurant->nom = $validated['nom'];
+        $restaurant->adresse = $validated['adresse'];
+        $restaurant->horaire = $validated['horaire'];
+        $restaurant->image = $imageName;
+        $restaurant->save();
 
-
-        $restaurant = Restaurant::create([
-            'nom' => $validated['nom'],
-            'adresse' => $validated['adresse'],
-            'horaire' => $validated['horaire'],
-            'image' => $validated['image'],
-            'image_path' => $imagePath
-        ]);
+       
         if ($restaurant) {
             return response()->json(['message' => 'Votre restaurant sous le nom de '. $restaurant->nom . ' a bien été crée.'], 201);
         }else {
@@ -76,8 +75,16 @@ class RestaurantController extends Controller
         return response()->json(['message' => 'Votre restaurant sous le nom de '. $restaurant->nom . ' a bien été modifié.']);
     }
 
-    public function destroy()
+    public function destroy(Restaurant $restaurant)
     {
 
+       
+        if (!$restaurant)
+            return response()->json(['message' => 'restaurant not found'], 404);
+
+        $restaurant->delete();
+
+        return response()->json(['message' => 'restaurant supprimé'], 200);
     }
 }
+
