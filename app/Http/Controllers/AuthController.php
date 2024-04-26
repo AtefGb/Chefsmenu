@@ -19,4 +19,10 @@ class AuthController extends Controller
             return response()->json(['message' => 'Credenziali non valide'], 401);
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        return response()->json(['message' => 'Logout effettuato con successo']);
+    }
 }
