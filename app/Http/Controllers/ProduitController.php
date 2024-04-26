@@ -24,17 +24,25 @@ class ProduitController extends Controller
             'prix_HT' => 'required|numeric',
             'tva' => 'required|numeric',
             'prix_TTC' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'description' => 'string|max:255',
             'restaurant_id' => 'required|numeric'
         ]);
 
-        $produit = Produit::create([
-            'nom' => $validated['nom'],
-            'categorie' => $validated['categorie'],
-            'prix_HT' => $validated['prix_HT'],
-            'tva' => $validated['tva'],
-            'prix_TTC' => $validated['prix_TTC'],
-            'restaurant_id' => $validated['restaurant_id'],
-        ]);
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+
+        $produit = new Produit();
+        $produit->nom = $validated['nom'];
+        $produit->categorie = $validated['categorie'];
+        $produit->prix_HT = $validated['prix_HT'];
+        $produit->prix_TTC = $validated['prix_TTC'];
+        $produit->tva = $validated['tva'];
+        $produit->image = $imageName;
+        $produit->restaurant_id = $validated['restaurant_id'];
+        $produit->description = $validated['description'];
+        $produit->save();
+       
         if ($produit) {
             return response()->json(['message' => 'Votre produit sous le nom de '. $produit->nom . ' a bien été crée.'], 201);
         }else {
@@ -57,17 +65,23 @@ class ProduitController extends Controller
             'prix_HT' => 'required|numeric',
             'tva' => 'required|numeric',
             'prix_TTC' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'description' => 'nullable|string|max:255',
             'restaurant_id' => 'required|numeric'
         ]);
 
-        $produit->nom = $request->nom;
-        $produit->categorie = $request->categorie;
-        $produit->prix_HT = $request->prix_HT;
-        $produit->tva = $request->tva;
-        $produit->prix_TTC = $request->prix_TTC;
-        $produit->restaurant_id = $request->restaurant_id;
-        $produit->save();
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
 
+        $produit->nom = $validated['nom'];
+        $produit->categorie = $validated['categorie'];
+        $produit->prix_HT = $validated['prix_HT'];
+        $produit->prix_TTC = $validated['prix_TTC'];
+        $produit->tva = $validated['tva'];
+        $produit->image = $imageName;
+        $produit->restaurant_id = $validated['restaurant_id'];
+        $produit->description = $validated['description'];
+        $produit->save();
 
         $produit->update($validated);
 

@@ -26,7 +26,7 @@ class CommandeController extends Controller
             'tva' => 'required|numeric',
             'prix_TTC' => 'required|numeric',
             'table_id' => 'required|numeric',
-            'detailCommande_id' => 'required|numeric',
+            'detail_commande_id' => 'required|numeric'
         ]);
 
         $commande = Commande::create([
@@ -34,7 +34,7 @@ class CommandeController extends Controller
             'tva' => $validated['tva'],
             'prix_TTC' => $validated['prix_TTC'],
             'table_id' => $validated['table_id'],
-            'detailCommande_id' => $validated['detailCommande_id'],
+            'detail_commande_id' => $validated['detail_commande_id'],
         ]);
         if ($commande) {
             return response()->json(['message' => 'Votre commande n° '. $commande->id . ' a bien été crée.'], 201);
@@ -51,20 +51,19 @@ class CommandeController extends Controller
     public function update(Request $request, Commande $commande)
     {
        
-
         $validated = $request->validate([
             'prix_HT' => 'required|numeric',
             'tva' => 'required|numeric',
             'prix_TTC' => 'required|numeric',
             'table_id' => 'required|numeric',
-            'detailCommande_id' => 'required|numeric',
+            'detail_commande_id' => 'required|numeric'
         ]);
 
         $commande->prix_HT = $request->prix_HT;
         $commande->tva = $request->tva;
         $commande->prix_TTC = $request->prix_TTC;
         $commande->table_id = $request->table_id;
-        $commande->detailCommande_id = $request->detailCommande_id;
+        $commande->detail_commande_id = $request->detail_commande_id;
         $commande->save();
 
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->decimal('prix_HT', 8,2);
             $table->decimal('tva', 5,2);
             $table->decimal('prix_TTC', 8,2);
+            $table->string('image')->nullable();
+            $table->string("description")->nullable();
             $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

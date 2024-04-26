@@ -59,6 +59,7 @@ Route::delete('/detailCommandes/{detailCommande}', [DetailCommandeController::cl
 // Route CONNEXION
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/register', [AuthController::class, 'store']);
+Route::get('/register', [AuthController::class, 'register']);
 Route::post('/api/logout', [AuthController::class, 'logout']);
 Route::post('/logout', [AuthController::class, 'logout']);
 // Route::get('/register', [AuthController::class, 'register'])->name('register.register');
