@@ -34,18 +34,22 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {
-        $validate = $request->validate([
-            'email' => 'required|email|',
-            'password' => 'required|string|'
-        ]);
+{
+    $validate = $request->validate([
+        'email' => 'required|email|',
+        'password' => 'required|string|'
+    ]);
 
-        if (Auth::attempt($validate)) {
-            return response()->json(['message' => 'vous êtes connecté']);
-        } else {
-            return response()->json(['message' => 'email ou mot de passe incorrect ']);
-        }
+    if (Auth::attempt($validate)) {
+        // Récupérer l'utilisateur connecté
+        $user = Auth::user();
+        // Retourner le message de succès et le nom d'utilisateur de l'utilisateur connecté
+        return response()->json(['message' => 'vous êtes connecté', 'username' => $user->name]);
+    } else {
+        return response()->json(['message' => 'email ou mot de passe incorrect ']);
     }
+}
+
 
     public function showRegistrationForm()
     {
