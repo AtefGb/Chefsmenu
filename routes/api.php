@@ -8,10 +8,6 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\DetailCommandeController;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
 
 // Route CRUD RESTAURANTS
 Route::get('/restaurants', [RestaurantController::class, 'index']);
@@ -57,10 +53,8 @@ Route::delete('/detailCommandes/{detailCommande}', [DetailCommandeController::cl
 
 
 // Route CONNEXION
+Route::post('/register', [AuthController::class, 'store'])->name('register.store');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class, 'store']);
-Route::get('/register', [AuthController::class, 'register']);
-Route::post('/api/logout', [AuthController::class, 'logout']);
-Route::post('/logout', [AuthController::class, 'logout']);
-// Route::get('/register', [AuthController::class, 'register'])->name('register.register');
 
+// Route DECONNEXION
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
+
 class AuthController extends Controller
 {
     public function register()
     {
-        $user = User::all();
-
-        return response()->json(['user' => $user]);
+      
+        return response()->json([]);
     }
 
     public function store(Request $request)
@@ -30,7 +30,10 @@ class AuthController extends Controller
             'password' => Hash::make($validatedData['password']),
         ]);
 
-        return response()->json(['message' => 'Votre compte a été bien créé']);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json(['message' => 'Votre compte a été bien créé', 'access_token' => $token,
+        'token_type' => 'Bearer',]);
     }
 
     public function login(Request $request)
@@ -39,24 +42,32 @@ class AuthController extends Controller
             'email' => 'required|email|',
             'password' => 'required|string|'
         ]);
+        
+        $user = User::where('email', $request['email'])->firstOrFail();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         if (Auth::attempt($validate)) {
-            return response()->json(['message' => 'vous êtes connecté']);
+            // Récupérer l'utilisateur connecté
+            $user = Auth::user();
+            // Retourner le message de succès et le nom d'utilisateur de l'utilisateur connecté
+            return response()->json(['message' => 'vous êtes connecté', 'username' => $user->name, 'access_token' => $token,
+            'token_type' => 'Bearer',]);
         } else {
             return response()->json(['message' => 'email ou mot de passe incorrect ']);
         }
+       
     }
-
-    // public function showRegistrationForm()
-    // {
-    //     return view('auth.register');
-    // }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        $logout = Auth::logout();
 
-        return response()->json(['message'=>'Logout effettuato con successo']);
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(['message'=>'Logout effettuato con successo', 'logout' => $logout]);
     }
 
 }
