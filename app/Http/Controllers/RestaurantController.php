@@ -31,9 +31,6 @@ class RestaurantController extends Controller
             'horaire' => 'required|date_format:H:i',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
-        
-        // $imageName = time() . '.' . $request->image->extension();
-        // $request->image->move(public_path('images'), $imageName);
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -82,8 +79,9 @@ class RestaurantController extends Controller
             'adresse' => 'required|string|min:2|max:255',
             'horaire' => 'required|date_format:H:i',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'user_id' => 'required|numeric'
         ]);
+
+        $userId = Auth::id();
 
          $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
@@ -92,13 +90,8 @@ class RestaurantController extends Controller
         $restaurant->adresse = $request->adresse;
         $restaurant->horaire = $request->horaire;
         $restaurant->image = $request->image;
-        $restaurant->user_id = $validated['user_id'];
+        $restaurant->user_id = $userId;
         $restaurant->save();
-        
-        // $imageFile = $request->file('image');
-
-        // $imagePath = $imageFile->store('public/images');
-        // $imagePath = str_replace('public/', 'storage/', $imagePath);
 
         $restaurant->update($validated);
 

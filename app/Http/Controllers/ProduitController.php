@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Produit;
 use App\Models\Restaurant;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -31,6 +33,8 @@ class ProduitController extends Controller
 
         $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('images'), $imageName);
+
+        $userId = Auth::id();
 
         $produit = new Produit();
         $produit->nom = $validated['nom'];
