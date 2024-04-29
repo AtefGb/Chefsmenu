@@ -30,7 +30,6 @@ class RestaurantController extends Controller
             'adresse' => 'required|string|min:2|max:255',
             'horaire' => 'required|date_format:H:i',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
-            'user_id' => 'required|numeric'
         ]);
         
         // $imageName = time() . '.' . $request->image->extension();
@@ -56,7 +55,7 @@ class RestaurantController extends Controller
         $restaurant->adresse = $validated['adresse'];
         $restaurant->horaire = $validated['horaire'];
         $restaurant->image = $imageName;
-        $restaurant->user_id = $validated['user_id'];
+        $restaurant->user_id = $userId;
 
         // Associer le restaurant à l'utilisateur connecté
         $restaurant->user_id = $userId;

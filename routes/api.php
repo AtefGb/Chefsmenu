@@ -11,7 +11,7 @@ use App\Http\Controllers\DetailCommandeController;
 
 // Route CRUD RESTAURANTS
 Route::get('/restaurants', [RestaurantController::class, 'index']);
-Route::post('/restaurants', [RestaurantController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/restaurants', [RestaurantController::class, 'store']);
 Route::get('/restaurant/{restaurant}', [RestaurantController::class, 'show']);
 Route::put('/restaurant/{restaurant}', [RestaurantController::class, 'update']);
 Route::delete('/restaurants/{restaurant}', [RestaurantController::class, 'destroy']);
